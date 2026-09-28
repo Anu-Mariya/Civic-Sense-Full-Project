@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
+const authMiddleware = require("../middleware/authmiddleware");
 
 const router = express.Router();
 
@@ -93,6 +94,13 @@ router.post("/login", async (req, res) => {
             error: error.message
         });
     }
+});
+
+router.get("/protected", authMiddleware, (req, res) => {
+    res.json({
+        message: "You are authorized",
+        userId: req.userId
+    });
 });
 
 
