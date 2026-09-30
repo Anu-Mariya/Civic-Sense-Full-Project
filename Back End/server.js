@@ -6,7 +6,8 @@ require("dotenv").config();
 
 const express = require("express");
 const connectDB = require("./config/db");
-const authRoutes = require("./routes/authRoutes");
+const authRoutes = require("./Routes/authRoutes");
+const complaintRoutes = require("./Routes/complaintRoutes");
 
 const app = express();
 
@@ -17,6 +18,7 @@ connectDB();
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
+app.use("/api/complaints", complaintRoutes);
 
 app.get("/", (req, res) => {
     res.send("Civic Complaint Backend is running!");
