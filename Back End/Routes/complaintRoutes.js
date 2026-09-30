@@ -1,6 +1,7 @@
 const express = require("express");
 const Complaint = require("../Models/Complaint");
 const authMiddleware = require("../middleware/authmiddleware");
+const upload = require("../middleware/uploadMiddleware");
 const router = express.Router();
 
 router.get("/test", (req, res) => {
@@ -10,10 +11,9 @@ router.get("/test", (req, res) => {
 });
 
 // ADD THE NEW CODE HERE
-router.post("/create", authMiddleware, async (req, res) => {
+router.post("/create", authMiddleware, upload.single("image"), async (req, res) => {
     try {
        const {
-    image,
     description,
     category,
     severity,
@@ -24,7 +24,7 @@ router.post("/create", authMiddleware, async (req, res) => {
 
        const complaint = await Complaint.create({
     citizen: req.userId,
-            image,
+            image: req.file.filename,
             description,
             category,
             severity,
